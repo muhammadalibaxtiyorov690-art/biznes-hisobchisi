@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Rasmiy Biznes Hisobchi — Tannarx, Kargo va 100% Sof Foyda Hisobi</title>
+  <meta name="description" content="Rasmiy Biznes Hisobchisi — Tadbirkorlar va savdogarlar uchun eng aniq tannarx, kargo va 100% sof foyda hisoblash tizimi." />
+  <meta name="keywords" content="rasmiy biznes hisobchisi, biznes hisobchi, biznes hisobchisi, sof foyda hisoblash, kargo kalkulyatori, tannarx hisoblash" />
+  <meta name="author" content="Biznes Hisobchi" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json?v=2100" />
+  <meta name="theme-color" content="#1e40af" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Biznes Hisobchi" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192.png?v=2100" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2100" />
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/icon-96.png?v=2100" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32.png?v=2100" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16.png?v=2100" />
+  <link rel="shortcut icon" href="favicon.ico?v=2100" />
+
+  <!-- Avtomatik kesh tozalash va yangi versiyani darhol yuklash -->
+  <script>
+    (function() {
+      var APP_VER = '2105';
+      if (localStorage.getItem('biznes_app_ver') !== APP_VER) {
+        localStorage.setItem('biznes_app_ver', APP_VER);
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(k) { caches.delete(k); });
+          });
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(r) { r.unregister(); });
+          });
+        }
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 100);
+      }
+    })();
+  </script>
+
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css?v=2105" />
+</head>
+<body>
+
+  <!-- MAIN APP CONTAINER (LOCKED / BLURRED UNTIL AUTHENTICATED) -->
+  <div class="container blurred" id="appContent">
+    
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <img src="icons/icon-96.png?v=2100" alt="Biznes Hisobchi" />
+        </div>
+        <div class="logo-text">
+          <h1>Biznes Hisobchi</h1>
+          <p>Tannarx, Kargo va 100% Sof Foyda Hisobi</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- ILOVANI O'RNATISH (HEADER PROMINENT BUTTON) -->
+        <button class="btn btn-install" id="headerInstallBtn" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; font-weight: 700; border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);">
+          📱 Ilovani o'rnatish
+        </button>
+
+        <!-- TARIFLAR & PREMIUM BUTTON -->
+        <button class="btn btn-pro" id="pricingBtn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: 1px solid rgba(255,255,255,0.25); font-weight: 700; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);">
+          👑 Tariflar
+        </button>
+
+        <!-- MENING DAROMADIM BUTTON IN HEADER -->
+        <button class="btn btn-primary btn-income" id="incomeAnalyticsBtn" style="background: linear-gradient(135deg, #10b981, #059669); border: none; font-weight: 600;">
+          💰 Mening daromadim
+        </button>
+
+        <button class="btn btn-secondary" id="exportCsvBtn">
+          📊 Excel
+        </button>
+        <button class="btn btn-secondary" id="printBtn">
+          🖨️ Chop etish
+        </button>
+        <button class="btn btn-secondary" id="settingsBtn">
+          ⚙️ Sozlamalar
+        </button>
+
+        <!-- USER PROFILE BADGE & DIRECT LOGOUT BUTTON IN HEADER -->
+        <div id="authContainer">
+          <!-- Rendered dynamically by JavaScript -->
+        </div>
+
+      </div>
+    </header>
+
+    <!-- STATS METRICS CARD (HUDDI RASMDAGIDEK 3 USTUNLI OQ FONLI CHIROYLI KARTA) -->
+    <section class="golden-stats-card-section" id="goldenStatsSection">
+      <div class="golden-stats-card">
+        <!-- 1-USTUN: UMUMIY TASHRIFLAR -->
+        <div class="golden-stat-item">
+          <div class="golden-stat-num" id="heroTotalVisitsCount">0</div>
+          <div class="golden-stat-label">UMUMIY TASHRIFLAR</div>
+          <div class="golden-stat-bar"></div>
+        </div>
+
+        <div class="golden-stat-divider"></div>
+
+        <!-- 2-USTUN: FOYDALANUVCHILAR SONI -->
+        <div class="golden-stat-item">
+          <div class="golden-stat-num" id="heroTotalUsersCount">0</div>
+          <div class="golden-stat-label">FOYDALANUVCHILAR SONI</div>
+          <div class="golden-stat-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOBILE TABS SWITCHER -->
+    <div class="mobile-tabs">
+      <button class="mobile-tab-btn active" id="tabFormBtn">
+        ➕ Kiritish
+      </button>
+      <button class="mobile-tab-btn" id="tabTableBtn">
+        📋 Ro'yxat (<span id="mobileCountBadge">0</span>)
+      </button>
+    </div>
+
+    <!-- MENING DAROMADIM QUICK ACCESS BANNER CARD -->
+    <div class="income-banner-card" id="incomeBannerCard">
+      <div class="income-banner-left">
+        <div class="income-banner-icon">📈</div>
+        <div>
+          <div class="income-banner-title">Mening daromadim (Yillik va Oyma-oy)</div>
+          <div class="income-banner-sub" id="bannerTotalIncomeText">Jami sof foyda: 0 so'm</div>
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="openIncomeBannerBtn" style="white-space: nowrap; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: #fff;">
+        📊 Tahlilni ko'rish
+      </button>
+    </div>
+
+    <!-- TOP STATS CARDS (100% SOF FOYDA) -->
+    <section class="stats-grid">
+      <div class="stat-card card-tushum">
+        <div class="stat-header">
+          <span class="stat-title">Jami Tushum (Sotuv)</span>
+          <span class="stat-icon">💵</span>
+        </div>
+        <div class="stat-value" id="statTotalRevenue">0 so'm</div>
+      </div>
+
+      <div class="stat-card card-tannarx">
+        <div class="stat-header">
+          <span class="stat-title">Jami Tannarx (Xarid + Kargo)</span>
+          <span class="stat-icon">📦</span>
+        </div>
+        <div class="stat-value" id="statTotalCost">0 so'm</div>
+      </div>
+
+      <div class="stat-card card-foyda">
+        <div class="stat-header">
+          <span class="stat-title">Jami Sof Foyda (100%)</span>
+          <span class="stat-icon">📈</span>
+        </div>
+        <div class="stat-value" style="color: var(--success);" id="statTotalProfit">0 so'm</div>
+      </div>
+    </section>
+
+    <!-- OYLIK FOYDA MAQSADI WIDGET (GOAL TRACKER) -->
+    <section class="goal-card">
+      <div class="goal-header">
+        <div class="goal-title">
+          <span style="font-size: 1.3rem;">🎯</span>
+          Oylik Foyda Maqsadi (Goal Tracker)
+        </div>
+
+        <div class="goal-target-display">
+          <span>Maqsad:</span>
+          <span class="goal-target-val" id="goalTargetVal">10 000 000 so'm</span>
+          <button class="btn btn-secondary btn-sm" id="editGoalBtn" title="Maqsadni o'zgartirish">
+            ✏️ O'zgartirish
+          </button>
+        </div>
+      </div>
+
+      <!-- Animated Progress Bar -->
+      <div class="progress-container">
+        <div class="progress-bar-fill" id="goalProgressBar" style="width: 0%;"></div>
+        <div class="progress-text-overlay" id="goalProgressText">0% Bajarildi</div>
+      </div>
+
+      <!-- Goal Detailed Metrics Grid -->
+      <div class="goal-metrics-grid">
+        <div class="goal-metric-item">
+          <div class="goal-metric-lbl">Oylik Maqsad</div>
+          <div class="goal-metric-val" id="goalMetricTarget">10 000 000 so'm</div>
+        </div>
+
+        <div class="goal-metric-item">
+          <div class="goal-metric-lbl">Erishilgan Sof Foyda</div>
+          <div class="goal-metric-val" style="color: var(--success);" id="goalMetricAchieved">0 so'm</div>
+        </div>
+
+        <div class="goal-metric-item">
+          <div class="goal-metric-lbl">Qolgan Summa</div>
+          <div class="goal-metric-val" style="color: var(--warning);" id="goalMetricRemaining">10 000 000 so'm</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN CONTENT: FORM + TABLE -->
+    <main class="main-layout show-form" id="mainLayout">
+
+      <!-- LEFT SIDE: INPUT FORM -->
+      <section class="panel" id="formPanel">
+        <h2 class="panel-title" id="formTitle">
+          ➕ Yangi Mahsulot Qo'shish
+        </h2>
+
+        <form id="productForm" novalidate>
+          <!-- Hidden field for editing existing product -->
+          <input type="hidden" id="editingProductId" value="" />
+
+          <!-- Image Dropzone / Smartphone Camera or Gallery Upload -->
+          <div class="form-group">
+            <label class="form-label">Mahsulot Rasmi (Galereya yoki Kamera)</label>
+            <div class="image-dropzone" id="dropzone">
+              <div class="dropzone-icon" style="font-size: 2.2rem; margin-bottom: 6px;">📷</div>
+              <div class="dropzone-text">Galereyadan tanlang yoki rasmga oling</div>
+              <input type="file" id="imageInput" accept="image/*" />
+              <img id="imagePreview" class="image-preview" alt="Preview" />
+            </div>
+          </div>
+
+          <!-- Product Name -->
+          <div class="form-group">
+            <label class="form-label" for="productName">Mahsulot Nomi / Kodi</label>
+            <input type="text" id="productName" class="form-control" placeholder="Masalan: Tapochki / Ko'ylak" />
+          </div>
+
+
+
+          <!-- Price Fields Grid (NON-MANDATORY FLEXIBLE SMART NUMBERS) -->
+          <div class="input-row">
+            <div class="form-group">
+              <label class="form-label" for="buyPrice">Xarid Narxi</label>
+              <input type="text" inputmode="decimal" id="buyPrice" class="form-control" placeholder="0 (Masalan: 15.000 yoki 15000)" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cargoPrice">Kargo Narxi</label>
+              <input type="text" inputmode="decimal" id="cargoPrice" class="form-control" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="form-group">
+              <label class="form-label" for="sellPrice">Sotilgan Narx</label>
+              <input type="text" inputmode="decimal" id="sellPrice" class="form-control" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="quantity">Soni</label>
+              <input type="text" inputmode="numeric" id="quantity" class="form-control" value="1" placeholder="1" />
+            </div>
+          </div>
+
+          <!-- LIVE CALCULATION PREVIEW -->
+          <div class="live-calc-box">
+            <div class="calc-row">
+              <span>1 ta tannarxi:</span>
+              <strong id="previewSingleCost">0 so'm</strong>
+            </div>
+            <div class="calc-row">
+              <span>Jami Tannarx:</span>
+              <strong id="previewTotalCost">0 so'm</strong>
+            </div>
+            <div class="calc-row highlight">
+              <span>100% Sof Foyda:</span>
+              <strong id="previewProfit" style="color: var(--success); font-size: 1.1rem;">0 so'm</strong>
+            </div>
+          </div>
+
+          <!-- Form Buttons -->
+          <div style="display: flex; gap: 10px;">
+            <button type="submit" id="submitProductBtn" class="btn btn-primary" style="flex: 1; justify-content: center; padding: 14px;">
+              💾 <span id="submitBtnText">Hisoblash va Saqlash</span>
+            </button>
+            <button type="button" id="cancelEditBtn" class="btn btn-secondary" style="display: none;">
+              Bekor qilish
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- RIGHT SIDE: HISTORY TABLE -->
+      <section class="panel" id="tablePanel">
+        
+        <div class="table-header-bar">
+          <h2 class="panel-title" style="margin-bottom: 0;">
+            📑 Mahsulotlar Tarixi
+          </h2>
+
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; width: 100%;">
+            <!-- Month Selector Dropdown & Filter buttons -->
+            <div class="filter-group">
+              <select id="monthSelectFilter" class="form-control" style="min-height: 34px; padding: 4px 10px; font-size: 0.8rem; width: auto; background: rgba(15,23,42,0.9);">
+                <option value="all">Barcha oylar</option>
+              </select>
+
+              <button class="filter-btn active" data-filter="all">Barchasi</button>
+              <button class="filter-btn" data-filter="today">Bugun</button>
+              <button class="filter-btn" data-filter="week">Shu hafta</button>
+              <button class="filter-btn" data-filter="month">Shu oy</button>
+            </div>
+
+            <!-- Search -->
+            <div class="search-box">
+              <span class="search-icon" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.95rem; pointer-events: none; opacity: 0.7;">🔍</span>
+              <input type="text" id="searchInput" class="form-control" placeholder="Qidirish..." />
+            </div>
+
+            <button class="btn btn-danger btn-sm" id="clearAllBtn" title="Barcha ma'lumotlarni o'chirish" style="margin-left: auto;">
+              🗑️ Tozalash
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="product-table">
+            <thead>
+              <tr>
+                <th>Mahsulot</th>
+                <th>Xarid + Kargo</th>
+                <th>Sotuv / Soni</th>
+                <th>Jami Tannarx</th>
+                <th>100% Sof Foyda</th>
+                <th style="text-align: right;">Amallar</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <!-- Rendered dynamically by JS -->
+            </tbody>
+          </table>
+
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon" style="font-size: 3rem; margin-bottom: 8px;">📦</div>
+            <p>Hozircha hech qanday mahsulot kiritilmagan</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MOBILE STICKY SUMMARY BAR -->
+  <div class="mobile-sticky-footer" id="mobileStickyFooter">
+    <div class="sticky-item">
+      <span>Tushum:</span>
+      <strong id="stickyRevenue">0 so'm</strong>
+    </div>
+    <div class="sticky-item">
+      <span>Tannarx:</span>
+      <strong id="stickyCost">0 so'm</strong>
+    </div>
+    <div class="sticky-item highlight">
+      <span>Foyda:</span>
+      <strong id="stickyProfit" style="color: var(--success);">0 so'm</strong>
+    </div>
+    <button id="closeStickyFooterBtn" title="Yopish" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem; padding: 0 4px; line-height: 1;">&times;</button>
+  </div>
+
+  <!-- AUTH MODAL: RO'YXATDAN O'TISH & KIRISH (GOOGLE & EMAIL) -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal" style="max-width: 440px; width: 95%; position: relative; padding: 24px;">
+      
+      <!-- Modal Header -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 46px; height: 46px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4); flex-shrink: 0;">
+            <img src="icons/icon-96.png?v=2100" alt="Biznes Hisobchi" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+          <div>
+            <h3 class="modal-title" id="authModalTitle" style="font-size: 1.25rem; font-weight: 800; margin-bottom: 2px;">Tizimga Kirish</h3>
+            <div style="font-size: 0.78rem; color: var(--text-muted);" id="authModalSubtitle">Google yoki Email orqali kiring</div>
+          </div>
+        </div>
+        <button class="modal-close" id="closeAuthModalBtn" title="Yopish" style="font-size: 1.5rem; color: var(--text-muted); cursor: pointer; border: none; background: none;">&times;</button>
+      </div>
+
+      <!-- TABS: RO'YXATDAN O'TISH vs KIRISH -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 10px; margin-bottom: 16px; border: 1px solid var(--border);">
+        <button type="button" id="tabAuthRegisterBtn" style="padding: 9px 12px; border-radius: 8px; border: none; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-muted);">
+          📝 Ro'yxatdan o'tish
+        </button>
+        <button type="button" id="tabAuthLoginBtn" style="padding: 9px 12px; border-radius: 8px; border: none; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; background: var(--gradient-primary); color: #fff; box-shadow: 0 4px 12px var(--primary-glow);">
+          🔑 Kirish
+        </button>
+      </div>
+
+      <!-- GOOGLE BUTTON -->
+      <button type="button" id="googleAuthActionBtn" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; background: #ffffff; color: #1f2937; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.92rem; border: 1px solid #e5e7eb; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.18); margin-bottom: 16px;">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.99 0 12s.45 3.85 1.24 5.42l4.04-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+        <span id="googleAuthBtnText">Google orqali kirish</span>
+      </button>
+
+      <!-- DIVIDER -->
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+        <span style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">yoki email bilan</span>
+        <div style="flex: 1; height: 1px; background: var(--border);"></div>
+      </div>
+
+      <!-- AUTH FORM -->
+      <form id="authMainForm" novalidate>
+        <!-- Name field (shown in registration mode) -->
+        <div class="form-group" id="authNameGroup" style="display: none; margin-bottom: 12px;">
+          <label class="form-label" for="authNameInput">👤 Ismingiz</label>
+          <input type="text" id="authNameInput" class="form-control" placeholder="Ismingizni kiriting" autocomplete="name" />
+        </div>
+
+        <!-- Phone field (shown in registration mode with auto +998 formatting) -->
+        <div class="form-group" id="authPhoneGroup" style="display: none; margin-bottom: 12px;">
+          <label class="form-label" for="authPhoneInput">📞 Telefon raqamingiz</label>
+          <input type="tel" id="authPhoneInput" class="form-control" placeholder="+998 (90) 123-45-67" maxlength="19" autocomplete="tel" />
+          <small style="font-size: 0.72rem; color: var(--text-dim); display: block; margin-top: 3px;">Format: +998 (XX) XXX-XX-XX</small>
+        </div>
+
+        <!-- Email field -->
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" for="authEmailInput">✉️ Email manzil</label>
+          <input type="email" id="authEmailInput" class="form-control" placeholder="Emailingizni kiriting" autocomplete="email" />
+        </div>
+
+        <!-- Password field -->
+        <div class="form-group" style="margin-bottom: 6px;">
+          <label class="form-label" for="authPasswordInput">🔑 Parol</label>
+          <input type="password" id="authPasswordInput" class="form-control" placeholder="Parolingizni kiriting" autocomplete="current-password" />
+        </div>
+
+        <!-- Parolni unutdingizmi link (kirish rejimida ko'rinadi) -->
+        <div id="forgotPasswordWrap" style="display: flex; justify-content: flex-end; margin-bottom: 14px;">
+          <a href="#" id="forgotPasswordLink" style="font-size: 0.8rem; color: var(--primary-light); text-decoration: none; font-weight: 600;">
+            🔑 Parolni unutdingizmi?
+          </a>
+        </div>
+
+        <button type="submit" id="authSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 13px; font-weight: 700; font-size: 0.95rem;">
+          🔑 Tizimga Kirish
+        </button>
+
+        <!-- SWITCH MODE PROMPT -->
+        <div style="text-align: center; margin-top: 14px; font-size: 0.82rem; color: var(--text-muted);" id="authSwitchPrompt">
+          Akkauntingiz yo'qmi? <a href="#" id="authSwitchLink" style="color: var(--primary-light); font-weight: 700; text-decoration: underline;">Ro'yxatdan o'ting</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       GOOGLE ACCOUNT CHOOSER MODAL (GOOGLE HISOBNI TANLASH)
+       ========================================================================== -->
+  <div class="modal-overlay" id="googleChooserModal" style="z-index: 10002;">
+    <div class="modal google-chooser-card" style="max-width: 420px; background: #ffffff; color: #202124; border-radius: 20px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid #dadce0;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="24" height="24" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.99 0 12s.45 3.85 1.24 5.42l4.04-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+          <span style="font-size: 1.05rem; font-weight: 700; color: #202124;">Google hisobingizni tanlang</span>
+        </div>
+        <button type="button" id="closeGoogleChooserBtn" style="background: none; border: none; font-size: 1.4rem; color: #5f6368; cursor: pointer; padding: 4px; line-height: 1;">&times;</button>
+      </div>
+
+      <p style="font-size: 0.82rem; color: #5f6368; margin-bottom: 16px;">
+        <strong>Biznes Hisobchi</strong> tizimiga kirish uchun hisobingiz ustiga bosing:
+      </p>
+
+      <!-- DYNAMIC GOOGLE ACCOUNTS LIST -->
+      <div id="googleAccountsList" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; max-height: 260px; overflow-y: auto;">
+        <!-- Populated via renderGoogleAccountsList() -->
+      </div>
+
+      <!-- ADD ANOTHER ACCOUNT EXPANDABLE BOX -->
+      <div id="googleAddAnotherBox" style="display: none; border-top: 1px solid #e8eaed; padding-top: 14px; margin-top: 10px;">
+        <label id="googleCustomEmailLabel" style="display: block; font-size: 0.8rem; font-weight: 600; color: #3c4043; margin-bottom: 6px;">Google emailingizni kiriting:</label>
+        <input type="email" id="googleCustomEmailInput" class="form-control" placeholder="nomingiz@gmail.com" style="background: #f8f9fa; border: 1px solid #dadce0; color: #202124; padding: 10px 14px; font-size: 0.88rem; width: 100%; margin-bottom: 10px;" />
+
+        <!-- Phone field for Google registration -->
+        <div id="googlePhoneGroup" style="display: none; margin-bottom: 10px;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; color: #3c4043; margin-bottom: 6px;">📞 Telefon raqamingiz:</label>
+          <input type="tel" id="googleCustomPhoneInput" class="form-control" placeholder="+998 (90) 123-45-67" maxlength="19" style="background: #f8f9fa; border: 1px solid #dadce0; color: #202124; padding: 10px 14px; font-size: 0.88rem; width: 100%;" />
+          <small style="font-size: 0.72rem; color: #5f6368; display: block; margin-top: 3px;">Format: +998 (XX) XXX-XX-XX</small>
+        </div>
+
+        <button type="button" id="googleCustomSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; background: #1a73e8; color: #fff; font-weight: 700; padding: 11px 16px; border-radius: 10px; border: none; cursor: pointer; font-size: 0.92rem;">
+          Davom etish
+        </button>
+      </div>
+
+      <div style="font-size: 0.72rem; color: #70757a; text-align: center; margin-top: 14px; border-top: 1px solid #f1f3f4; padding-top: 10px;">
+        🔒 Google xavfsiz autentifikatsiya tizimi
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       GOOGLE ACCOUNT PASSWORD CONFIRMATION MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="googlePasswordModal" style="z-index: 10004;">
+    <div class="modal google-chooser-card" style="max-width: 400px; background: #ffffff; color: #202124; border-radius: 20px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid #dadce0;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.15 0 9.99 0 12s.45 3.85 1.24 5.42l4.04-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+          <span style="font-size: 1.02rem; font-weight: 700; color: #202124;">Google hisobi bilan kirish</span>
+        </div>
+        <button type="button" id="closeGooglePasswordModalBtn" style="background: none; border: none; font-size: 1.4rem; color: #5f6368; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+
+      <div style="background: #f8f9fa; border: 1px solid #dadce0; border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px;">
+        <div id="googlePasswordAvatar" class="google-avatar" style="width: 38px; height: 38px; font-size: 1.05rem;">G</div>
+        <div style="overflow: hidden; flex: 1;">
+          <div id="googlePasswordName" style="font-weight: 700; font-size: 0.92rem; color: #202124; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Foydalanuvchi</div>
+          <div id="googlePasswordEmail" style="font-size: 0.8rem; color: #5f6368; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">email@gmail.com</div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 6px;">
+        <label for="googleAccountPasswordInput" style="display: block; font-size: 0.82rem; font-weight: 600; color: #3c4043; margin-bottom: 6px;">🔑 Parolingizni kiriting:</label>
+        <input type="password" id="googleAccountPasswordInput" class="form-control" placeholder="Hisob parolini kiriting" style="background: #ffffff; border: 1px solid #dadce0; color: #202124; width: 100%; padding: 11px 14px; font-size: 0.92rem;" autocomplete="current-password" />
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 14px;">
+        <a href="#" id="googleForgotPasswordLink" style="font-size: 0.78rem; color: #1a73e8; text-decoration: none; font-weight: 600;">
+          🔑 Parolni unutdingizmi?
+        </a>
+      </div>
+
+      <button type="button" id="googlePasswordSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; background: #1a73e8; color: #fff; font-weight: 700; padding: 12px 16px; border-radius: 10px; border: none; cursor: pointer; font-size: 0.95rem;">
+        Kirish
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       PAROLNI TIKLASH MODALI (TEKIN SMS KOD BILAN)
+       ========================================================================== -->
+  <div class="modal-overlay" id="forgotPasswordModal" style="z-index: 10005;">
+    <div class="modal" style="max-width: 420px; border-radius: 20px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>📲</span> Parolni Tiklash
+        </h3>
+        <button class="modal-close" id="closeForgotModalBtn">&times;</button>
+      </div>
+
+      <!-- QADAM 1: TELEFON / EMAIL KIRITISH -->
+      <div id="forgotStep1">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+          Ro'yxatdan o'tgan telefon raqamingiz yoki emailingizni kiriting. Telefoningizga <strong>tekin SMS tasdiqlash kodi</strong> yuboriladi:
+        </p>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label" for="forgotAccountInput">📞 Telefon raqam yoki ✉️ Email</label>
+          <input type="text" id="forgotAccountInput" class="form-control" placeholder="+998 (90) 123-45-67 yoki email" autocomplete="off" />
+        </div>
+        <button type="button" id="forgotSendCodeBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-weight: 700;">
+          📲 Tekin SMS kod olish
+        </button>
+      </div>
+
+      <!-- QADAM 2: SMS KODNI TASDIQLASH -->
+      <div id="forgotStep2" style="display: none;">
+        <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 12px; margin-bottom: 14px; text-align: center;">
+          <div style="font-size: 0.82rem; color: var(--text-muted);">Tasdiqlash kodi ushbu raqamga yuborildi:</div>
+          <strong id="forgotTargetPhoneDisplay" style="font-size: 0.95rem; color: #818cf8; display: block; margin-top: 3px;">+998 (90) ***-**-67</strong>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label" for="forgotSmsCodeInput" style="text-align: center; display: block;">6 xonali SMS kodni kiriting:</label>
+          <input type="text" id="forgotSmsCodeInput" class="form-control" placeholder="1 2 3 4 5 6" maxlength="6" style="text-align: center; font-size: 1.4rem; letter-spacing: 6px; font-weight: 700;" autocomplete="one-time-code" />
+        </div>
+
+        <button type="button" id="forgotVerifyCodeBtn" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-weight: 700; margin-bottom: 10px;">
+          ✓ Kodni tasdiqlash
+        </button>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px;">
+          <span id="forgotCountdownText">Qayta yuborish: <strong id="forgotTimerSec">59</strong>s</span>
+          <button type="button" id="forgotResendBtn" style="background: none; border: none; color: var(--primary-light); cursor: pointer; text-decoration: underline; padding: 0;" disabled>
+            Kodni qayta yuborish
+          </button>
+        </div>
+      </div>
+
+      <!-- QADAM 3: YANGI PAROL O'RNATISH -->
+      <div id="forgotStep3" style="display: none;">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+          ✅ SMS kod tasdiqlandi! Endi hisobingiz uchun yangi parol o'rnating:
+        </p>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" for="forgotNewPassInput">🔑 Yangi parol</label>
+          <input type="password" id="forgotNewPassInput" class="form-control" placeholder="Yangi parol kiriting (kamida 4 belgi)" />
+        </div>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" for="forgotConfirmPassInput">🔑 Yangi parolni takrorlang</label>
+          <input type="password" id="forgotConfirmPassInput" class="form-control" placeholder="Parolni qayta kiriting" />
+        </div>
+        <button type="button" id="forgotSavePassBtn" class="btn btn-success" style="width: 100%; justify-content: center; padding: 12px; font-weight: 700;">
+          💾 Yangi parolni saqlash va kirish
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       REALISTIC PUSH SMS NOTIFICATION BANNER
+       ========================================================================== -->
+  <div id="smsNotificationBanner" class="sms-push-banner" style="display: none;">
+    <div class="sms-push-content">
+      <div class="sms-push-header">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span class="sms-push-icon">💬</span>
+          <span class="sms-push-sender">XABARLAR (SMS) • HOZIR</span>
+        </div>
+        <button type="button" id="closeSmsBannerBtn" class="sms-push-close">&times;</button>
+      </div>
+      <div class="sms-push-body">
+        <div class="sms-push-title">Biznes Hisobchi</div>
+        <div class="sms-push-text" id="smsPushMessageText">Parolni tiklash kodi: <strong>491823</strong>. Hech kimga bermang!</div>
+      </div>
+      <div class="sms-push-action">
+        <button type="button" id="smsPushAutoFillBtn" class="sms-push-btn">Kodni nusxalash / Avto-kiritish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ Tizim Sozlamalari</h3>
+        <button class="modal-close" id="closeModalBtn">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Valyuta</label>
+        <select id="settingCurrency" class="form-control">
+          <option value="UZS">So'm (UZS)</option>
+          <option value="USD">USD ($)</option>
+          <option value="RUB">RUB (₽)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" id="saveSettingsBtn" style="width: 100%; justify-content: center; margin-top: 10px;">
+        ✓ Saqlash
+      </button>
+
+      <!-- BIG DIRECT LOGOUT BUTTON IN SETTINGS MODAL -->
+      <button type="button" class="btn btn-danger" id="settingsLogoutBtn" style="width: 100%; justify-content: center; margin-top: 14px; padding: 12px;">
+        🚪 Chiqish (Log out)
+      </button>
+    </div>
+  </div>
+
+  <!-- EDIT GOAL TARGET MODAL -->
+  <div class="modal-overlay" id="goalModal">
+    <div class="modal" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🎯 Oylik Foyda Maqsadi</h3>
+        <button class="modal-close" id="closeGoalModalBtn">&times;</button>
+      </div>
+
+      <form id="goalForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="goalInputAmount">Oylik Maqsad Summasini Kiriting</label>
+          <input type="text" inputmode="decimal" id="goalInputAmount" class="form-control" placeholder="10000000" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 10px;">
+          ✓ Saqlash
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MENING DAROMADIM ANALYTICS MODAL (OYLIK VA YILLIK TO'LIQ TAHLIL) -->
+  <div class="modal-overlay" id="incomeModal">
+    <div class="modal income-modal-content" style="max-width: 520px; width: 95%; max-height: 90vh; overflow-y: auto; padding: 22px; position: relative;">
+      
+      <!-- Modal Header -->
+      <div class="income-modal-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(59,130,246,0.25)); border: 1px solid rgba(16,185,129,0.4); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; box-shadow: 0 4px 12px rgba(16,185,129,0.2);">
+            💰
+          </div>
+          <div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Mening Daromadim (Jami)</div>
+            <div style="font-size: 1.45rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 8px;">
+              <span id="incomeGrandTotalVal">0.00 so'm</span>
+              <button id="toggleIncomePrivacyBtn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.05rem; padding: 2px;" title="Summani yashirish / ko'rsatish">
+                <span id="incomePrivacyIcon">👁️</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- YOPISH (X) TUGMASI - KATTA VA ANIQ -->
+        <button class="modal-close" id="closeIncomeModalXBtn" title="Oynani yopish (X)" style="width: 38px; height: 38px; min-width: 38px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #ef4444; font-size: 1.6rem; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; line-height: 1;">
+          &times;
+        </button>
+      </div>
+
+      <!-- OYLIK VA YILLIK ALMASHTIRGICH (TABS) -->
+      <div class="income-view-tabs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: rgba(255,255,255,0.04); padding: 5px; border-radius: var(--radius-md); border: 1px solid var(--border); margin-bottom: 18px;">
+        <button type="button" id="tabIncomeMonthBtn" class="income-tab-btn active" style="padding: 10px 14px; border-radius: var(--radius-sm); border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+          <span>📅</span> <span>Oylik hisob</span>
+        </button>
+        <button type="button" id="tabIncomeYearBtn" class="income-tab-btn" style="padding: 10px 14px; border-radius: var(--radius-sm); border: none; font-weight: 800; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+          <span>📆</span> <span>Yillik hisob</span>
+        </button>
+      </div>
+
+      <!-- ================= 1-BO'LIM: OYLIK HISOB KO'RINISHI ================= -->
+      <div id="incomeMonthSection">
+        <!-- Oy tanlash selektori -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+          <label for="incomeMonthSelect" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+            <span>🗓️</span> <span>Oyni tanlang:</span>
+          </label>
+          <select id="incomeMonthSelect" class="form-control" style="width: auto; flex: 1; max-width: 220px; font-weight: 700; padding: 7px 10px; border-radius: 8px; font-size: 0.88rem;">
+            <!-- Dinamik to'ldiriladi: Yanvar, Fevral, ... -->
+          </select>
+        </div>
+
+        <!-- Tanlangan Oy Katta Kartochkasi -->
+        <div class="month-summary-card" style="background: linear-gradient(145deg, rgba(16, 185, 129, 0.14), rgba(15, 23, 42, 0.7)); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-md); padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;" id="incomeMonthCardTitle">OYLIK SOF FOYDA</span>
+            <span style="font-size: 0.75rem; background: rgba(16,185,129,0.2); color: var(--success); padding: 3px 8px; border-radius: 6px; font-weight: 800;">OYLIK</span>
+          </div>
+          <div style="font-size: 1.65rem; font-weight: 900; color: var(--success); margin-bottom: 12px;" id="incomeMonthProfitBigVal">0 so'm</div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85rem; margin-bottom: 12px; background: rgba(0,0,0,0.28); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <div>
+              <div style="color: var(--text-muted); font-size: 0.74rem;">Oylik tushum (Sotuv):</div>
+              <strong id="incomeMonthRevenueVal" style="color: #38bdf8; font-weight: 800; font-size: 0.95rem;">0 so'm</strong>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); font-size: 0.74rem;">Oylik xarajat (Tannarx):</div>
+              <strong id="incomeMonthCostVal" style="color: var(--warning); font-weight: 800; font-size: 0.95rem;">0 so'm</strong>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+            <span>Ushbu oydagi sotilgan mahsulotlar:</span>
+            <strong id="incomeMonthQtyVal" style="color: #fff; font-weight: 700;">0 ta</strong>
+          </div>
+        </div>
+
+        <!-- Tanlangan Oydagi Mahsulotlar Ro'yxati -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin: 0; display: flex; align-items: center; gap: 6px;">
+            <span>📋</span> <span>Ushbu oydagi hisobotlar</span>
+          </h4>
+          <button class="btn btn-secondary" id="downloadMonthReportBtn" style="padding: 6px 12px; font-size: 0.78rem; font-weight: 700;">
+            📥 Oylik Excel
+          </button>
+        </div>
+        <div id="monthlyProductsList" style="max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; margin-bottom: 14px;">
+          <!-- Mahsulotlar ro'yxati chiqadi -->
+        </div>
+      </div>
+
+      <!-- ================= 2-BO'LIM: YILLIK HISOB KO'RINISHI ================= -->
+      <div id="incomeYearSection" style="display: none;">
+        <!-- Yil tanlash knopkalari (Pills) -->
+        <div class="year-pills-container" id="yearPillsContainer" style="display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px;">
+          <!-- Dinamik yillar: 2026, 2025, 2024... -->
+        </div>
+
+        <!-- Yillik Katta Kartochka -->
+        <div class="year-summary-card" style="background: linear-gradient(145deg, rgba(59, 130, 246, 0.14), rgba(15, 23, 42, 0.7)); border: 1px solid rgba(59, 130, 246, 0.35); border-radius: var(--radius-md); padding: 16px; margin-bottom: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;" id="incomeYearTitle">2026-YIL UMUMIY HISOBI</span>
+            <span style="font-size: 0.75rem; background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 3px 8px; border-radius: 6px; font-weight: 800;">YILLIK</span>
+          </div>
+          <div style="font-size: 1.65rem; font-weight: 900; color: #3b82f6; margin-bottom: 12px;" id="incomeYearProfitVal">0 so'm</div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85rem; margin-bottom: 12px; background: rgba(0,0,0,0.28); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <div>
+              <div style="color: var(--text-muted); font-size: 0.74rem;">Yillik jami tushum:</div>
+              <strong id="incomeYearRevenueVal" style="color: #38bdf8; font-weight: 800; font-size: 0.95rem;">0 so'm</strong>
+            </div>
+            <div>
+              <div style="color: var(--text-muted); font-size: 0.74rem;">Yillik jami xarajat:</div>
+              <strong id="incomeYearCostVal" style="color: var(--warning); font-weight: 800; font-size: 0.95rem;">0 so'm</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px;">
+            <span>Haqiqatda ishlagan oylar:</span>
+            <strong id="incomeYearMonthsCountVal" style="color: #fff; font-weight: 700;">0 ta oy</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">
+            <span>Sotilgan jami mahsulotlar:</span>
+            <strong id="incomeYearQtyVal" style="color: #fff; font-weight: 700;">0 ta</strong>
+          </div>
+
+          <button class="btn btn-secondary" id="downloadYearReportBtn" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.85rem; font-weight: 700;">
+            📥 Yillik hisobotni yuklash (Excel)
+          </button>
+        </div>
+
+        <!-- Oyma-oy Ko'rsatkichlar -->
+        <div style="margin-top: 10px;">
+          <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>📊</span> <span>Oyma-oy tahlil ko'rsatkichlari</span>
+          </h4>
+          <div id="monthlyBreakdownList" style="max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; margin-bottom: 14px;">
+            <!-- Dinamik oylar chiqadi -->
+          </div>
+        </div>
+      </div>
+
+      <!-- OYNANI YOPISH PASTI TUGMASI -->
+      <button type="button" class="btn btn-secondary" id="closeIncomeModalBottomBtn" style="width: 100%; margin-top: 10px; justify-content: center; padding: 12px; font-weight: 700; border-radius: 10px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: #fff;">
+        &times; Chiqish (Yopish)
+      </button>
+
+    </div>
+  </div>
+  <!-- ==========================================================================
+       PREMIUM TARIFLAR & OBUNALAR MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="pricingModal">
+    <div class="modal pricing-modal-content" style="max-width: 950px; width: 95%; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header" style="border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 18px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; box-shadow: 0 4px 15px rgba(245,158,11,0.4);">
+            👑
+          </div>
+          <div>
+            <h3 class="modal-title" style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 2px;">
+              Tariflar &amp; Imkoniyatlar
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">
+              Biznesingizni cheklovlarsiz boshqarish uchun mos tarifni tanlang
+            </p>
+          </div>
+        </div>
+        <button class="modal-close" id="closePricingModalBtn">&times;</button>
+      </div>
+
+      <!-- Current Plan Status Banner -->
+      <div class="current-plan-banner" id="currentPlanBanner">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Amaldagi tarif:</span>
+          <span class="active-plan-badge" id="activePlanBadge">🌱 Bepul (Start)</span>
+        </div>
+        <span id="planExpiryText" style="font-size: 0.8rem; color: var(--text-dim);">Doimiy faol</span>
+      </div>
+
+      <!-- PRICING CARDS GRID -->
+      <div class="pricing-cards-grid">
+        
+        <!-- CARD 1: BEPUL (500 TAGACHA MAHSULOT) -->
+        <div class="pricing-card card-free" id="cardFree">
+          <div class="p-card-header">
+            <div class="p-card-tag">Oddiy Aholi Uchun</div>
+            <h4 class="p-card-title">🌱 Bepul</h4>
+            <div class="p-card-price">
+              <span class="p-amount">0</span>
+              <span class="p-period">so'm / doimiy</span>
+            </div>
+            <p class="p-card-desc">Oddiy aholi, boshlovchi savdogar va kichik savdolar uchun</p>
+          </div>
+          <ul class="p-features-list">
+            <li>✓ <strong>500 tagacha</strong> mahsulot saqlash (Bepul!)</li>
+            <li>✓ 100% Sof Foyda hisoblash</li>
+            <li>✓ Tannarx va Kargo kalkulyatori</li>
+            <li>✓ Telefon xotirasida saqlash</li>
+            <li class="disabled">✕ Excel (CSV) yuklab olish</li>
+            <li class="disabled">✕ Yillik daromad tahlillari</li>
+          </ul>
+          <button class="btn btn-secondary plan-action-btn current-plan-btn" id="btnSelectFree" disabled>
+            ✓ Amaldagi tarif
+          </button>
+        </div>
+
+        <!-- CARD 2: OYLIK CHEKSIZ (40 MING SO'M) -->
+        <div class="pricing-card card-pro" id="cardPro">
+          <div class="p-card-header">
+            <div class="p-card-tag tag-pro">Hamyonbop Cheksiz</div>
+            <h4 class="p-card-title">⚡ Oylik Cheksiz</h4>
+            <div class="p-card-price">
+              <span class="p-amount">40 000</span>
+              <span class="p-period">so'm / oy</span>
+            </div>
+            <p class="p-card-desc">Atigi 40 000 so'mga to'liq cheksiz mahsulotlar va erkinlik!</p>
+          </div>
+          <ul class="p-features-list">
+            <li>✓ <strong>CHEKSIZ</strong> mahsulotlar kiritish</li>
+            <li>✓ <strong>Excel (CSV)</strong> to'liq yuklab olish</li>
+            <li>✓ Oylik foyda maqsadi (Goal tracker)</li>
+            <li>✓ Rasmlarni cheksiz yuklash</li>
+            <li>✓ Qidiruv va saralash filterlari</li>
+            <li class="disabled">✕ Shaxsiy menejer yordami</li>
+          </ul>
+          <button class="btn btn-primary plan-action-btn" onclick="openCheckout('Oylik Cheksiz', '40 000 so\'m / oy', 40000)">
+            ⚡ 40 000 so'mga Cheksiz Olish
+          </button>
+        </div>
+
+        <!-- CARD 3: YILLIK VIP (ENG OMMABOP) -->
+        <div class="pricing-card card-vip featured" id="cardVip">
+          <div class="featured-ribbon">🔥 ENG OMMABOP — 50% TEJASH</div>
+          <div class="p-card-header">
+            <div class="p-card-tag tag-vip">🔥 Tavsiya etiladi</div>
+            <h4 class="p-card-title">👑 Yillik VIP</h4>
+            <div class="p-card-price">
+              <span class="p-amount">199 000</span>
+              <span class="p-period">so'm / yil</span>
+            </div>
+            <div class="p-monthly-equivalent">Oyiga atigi ~16 500 so'mga to'g'ri keladi!</div>
+            <p class="p-card-desc">Faol savdogarlar va jiddiy tadbirkorlar uchun</p>
+          </div>
+          <ul class="p-features-list">
+            <li>✓ <strong>Barcha PRO</strong> imkoniyatlari</li>
+            <li>✓ <strong>Yillik &amp; Oyma-oy</strong> to'liq daromad tahlili</li>
+            <li>✓ Barcha yillik hisobotlarni yuklab olish</li>
+            <li>✓ Ko'p valyutalik tizim (USD, RUB, UZS)</li>
+            <li>✓ <strong>Telegram orqali</strong> shaxsiy yordam</li>
+            <li>✓ 1 yil davomida barcha yangilanishlar</li>
+          </ul>
+          <button class="btn btn-primary plan-action-btn btn-vip-action" onclick="openCheckout('Yillik VIP', '199 000 so\'m / yil', 199000)">
+            👑 VIP ga o'tish (199 000 so'm)
+          </button>
+        </div>
+
+        <!-- CARD 4: BIR UMRLIK (LIFETIME) -->
+        <div class="pricing-card card-lifetime" id="cardLifetime">
+          <div class="p-card-header">
+            <div class="p-card-tag tag-lifetime">💎 Abadiy Litsenziya</div>
+            <h4 class="p-card-title">💎 Bir Umrlik</h4>
+            <div class="p-card-price">
+              <span class="p-amount">450 000</span>
+              <span class="p-period">so'm (Bir martalik)</span>
+            </div>
+            <p class="p-card-desc">1 marta to'laysiz — umrbod bepul ishlatasiz!</p>
+          </div>
+          <ul class="p-features-list">
+            <li>✓ <strong>Umrbod to'liq litsenziya</strong> (oylik to'lov yo'q)</li>
+            <li>✓ Kelajakdagi barcha yangi funksiyalar bepul</li>
+            <li>✓ Shaxsiy biznes tahlilchisi maslahati</li>
+            <li>✓ Cheksiz eksport, hisobot va zaxira nusxalar</li>
+            <li>✓ VIP status va doimiy yashil chiziq</li>
+          </ul>
+          <button class="btn btn-secondary plan-action-btn btn-lifetime-action" onclick="openCheckout('Bir Umrlik (Lifetime)', '450 000 so\'m (Bir marta)', 450000)">
+            💎 Bir Umrga Olish (450 000)
+          </button>
+        </div>
+
+      </div>
+
+      <!-- PROMO-CODE SECTION (1-DAY VIP TRIAL) -->
+      <div class="promo-box">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">🎟️</span>
+            <span style="font-weight: 700; font-size: 0.92rem;">Promokod bormi? (1 kunlik bepul VIP)</span>
+          </div>
+          <p style="font-size: 0.74rem; color: var(--text-dim); margin-top: 2px;">
+            Promokod kiriting va 1 kun davomida VIP imkoniyatlardan bepul bahramand bo'ling!
+          </p>
+        </div>
+        <div class="promo-input-group">
+          <input type="text" id="promoCodeInput" placeholder="PRO2026 / START / VIP" class="form-control" style="text-transform: uppercase;" />
+          <button class="btn btn-secondary" id="applyPromoBtn" style="font-weight: 700;">
+            Faollashtirish
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ILOVANI TELEFONGA O'RNATISH QO'LLANMASI (MODAL)
+       ========================================================================== -->
+  <div class="modal-overlay" id="installGuideModal">
+    <div class="modal install-modal-content" style="max-width: 440px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="icons/icon-96.png?v=2080" alt="Biznes Hisobchi" style="width: 46px; height: 46px; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 16px rgba(99,102,241,0.45); flex-shrink: 0;" />
+          <div>
+            <h3 class="modal-title" style="font-size: 1.15rem; margin-bottom: 2px;">Ilovani O'rnatish</h3>
+            <div style="font-size: 0.76rem; color: var(--text-muted);">Telefon ekraniga qo'shish va offline ishlatish</div>
+          </div>
+        </div>
+        <button class="modal-close" id="closeInstallGuideBtn">&times;</button>
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+          Ilovani telefoningiz ekraniga qo'shib olsangiz, har kuni Google'dan qidirib o'tirmaysiz va internet bo'lmaganda ham bemalol hisob-kitob qilaverasiz!
+        </p>
+
+        <!-- IPHONE INSTRUKSIYA -->
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
+          <div style="font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 1.1rem;">🍏</span> iPhone (Safari brauzerida):
+          </div>
+          <ol style="margin-left: 20px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+            <li>Safari pastidagi <strong>Ulashish (Share ⬆)</strong> tugmasini bosing.</li>
+            <li>Ro'yxatdan <strong>"Bosh ekranga qo'shish" (На экран «Домой»)</strong> ni tanlang.</li>
+            <li>Tepadagi <strong>"Qo'shish" (Add)</strong> tugmasini bosing!</li>
+          </ol>
+        </div>
+
+        <!-- ANDROID INSTRUKSIYA -->
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px;">
+          <div style="font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 1.1rem;">🤖</span> Android (Chrome brauzerida):
+          </div>
+          <ol style="margin-left: 20px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;">
+            <li>Brauzer tepasidagi 3 ta nuqta <strong>(⋮)</strong> tugmasini bosing.</li>
+            <li><strong>"Ilovani o'rnatish"</strong> yoki <strong>"Bosh ekranga qo'shish"</strong> ni bosing!</li>
+          </ol>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="gotItInstallBtn" style="width: 100%; justify-content: center; padding: 12px; font-weight: 700;">
+        Tushundim, rahmat!
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CHECKOUT / PAYMENT MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal checkout-modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="checkoutPlanTitle">Tarifga To'lov Qilish</h3>
+          <div style="font-size: 0.95rem; color: var(--success); font-weight: 800; margin-top: 4px;" id="checkoutPlanPrice">199 000 so'm</div>
+        </div>
+        <button class="modal-close" id="closeCheckoutModalBtn">&times;</button>
+      </div>
+
+      <div class="checkout-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+          To'lovni amalga oshirish uchun qulay usulni tanlang yoki Telegram orqali administrator bilan bog'laning:
+        </p>
+
+        <!-- PAYMENT METHODS BUTTONS -->
+        <div class="payment-methods-grid">
+          
+          <!-- CLICK -->
+          <a href="https://my.click.uz/" target="_blank" class="payment-card-btn click-btn">
+            <div class="payment-icon">💳</div>
+            <div class="payment-info">
+              <div class="payment-name">Click orqali to'lash</div>
+              <div class="payment-sub">Karta orqali bir lahzada</div>
+            </div>
+            <span style="font-weight: 800; font-size: 1.1rem; color: var(--text-dim);">↗</span>
+          </a>
+
+          <!-- PAYME -->
+          <a href="https://payme.uz/" target="_blank" class="payment-card-btn payme-btn">
+            <div class="payment-icon">💰</div>
+            <div class="payment-info">
+              <div class="payment-name">Payme orqali to'lash</div>
+              <div class="payment-sub">Humo / Uzcard xavfsiz to'lov</div>
+            </div>
+            <span style="font-weight: 800; font-size: 1.1rem; color: var(--text-dim);">↗</span>
+          </a>
+
+          <!-- TELEGRAM ADMIN -->
+          <a href="https://t.me/biznes_hisobchi_admin" target="_blank" class="payment-card-btn tg-btn">
+            <div class="payment-icon">✈️</div>
+            <div class="payment-info">
+              <div class="payment-name">Telegram orqali bog'lanish</div>
+              <div class="payment-sub">Kvitansiya yuborish / Faollashtirish</div>
+            </div>
+            <span style="font-weight: 800; font-size: 1.1rem; color: var(--text-dim);">↗</span>
+          </a>
+
+        </div>
+
+        <div style="margin-top: 16px; padding: 12px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.25); border-radius: var(--radius-sm); font-size: 0.78rem; color: var(--text-muted);">
+          <span style="margin-right: 4px;">🛡️</span>
+          To'lovdan so'ng profilingizga avtomatik tarzda yoki Telegram orqali 5 daqiqada litsenziya ochiladi.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js?v=2105"></script>
+</body>
+</html>

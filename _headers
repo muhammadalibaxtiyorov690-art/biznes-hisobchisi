@@ -1,0 +1,18 @@
+/*
+  # Majburiy HTTPS va xavfsizlik shifrlash
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  
+  # Saytni begona saytlar o'z iframe-iga klonlab olishini taqiqlash (Anti-Clickjacking)
+  X-Frame-Options: DENY
+  
+  # MIME-type hujumlaridan himoya
+  X-Content-Type-Options: nosniff
+  
+  # XSS (zararli skriptlar) dan brauzer darajasida himoya
+  X-XSS-Protection: 1; mode=block
+  
+  # Foydalanuvchi ma'lumotlari xavfsizligi
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # Kamera va mikrofondan ruxsatsiz foydalanishni cheklash
+  Permissions-Policy: camera=(self), microphone=(), geolocation=()
